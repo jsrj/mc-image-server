@@ -25,5 +25,5 @@
 /.nb-gradle/
 
 ### Environment ###
-**/application.yaml
-**/application-local.yaml
+application.yaml
+application-local.yaml
