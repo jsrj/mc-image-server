@@ -1,4 +1,4 @@
-package com.arjaycodes.makercloudimageserver.service.Implementation;
+package com.arjaycodes.makercloudimageserver.service.implementation;
 
 import com.arjaycodes.makercloudimageserver.projection.StandardResponse;
 import com.arjaycodes.makercloudimageserver.service.ImageUploadService;
