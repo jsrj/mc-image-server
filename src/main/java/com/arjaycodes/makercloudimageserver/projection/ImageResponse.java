@@ -17,7 +17,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageResponseDTO {
+public class ImageResponse {
 
     @Getter @Setter
     private PageInfo pageInfo;
