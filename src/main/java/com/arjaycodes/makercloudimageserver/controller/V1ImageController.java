@@ -4,8 +4,10 @@ import com.arjaycodes.makercloudimageserver.model.ImageData;
 import com.arjaycodes.makercloudimageserver.model.utility.PageInfo;
 import com.arjaycodes.makercloudimageserver.projection.ImageResponse;
 import com.arjaycodes.makercloudimageserver.projection.StandardResponse;
+import com.arjaycodes.makercloudimageserver.service.utility.S3Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -23,8 +27,15 @@ import java.util.Objects;
 @RequestMapping(value = "/img/v1")
 public class V1ImageController {
 
-    //
     private Logger log = LoggerFactory.getLogger(V1ImageController.class);
+
+    // Amazon Utility
+    private S3Client s3Client;
+
+    @Autowired
+    V1ImageController(S3Client s3Client) {
+        this.s3Client = s3Client;
+    }
 
     // -- /GET/    -- All Images - Paginated
     @GetMapping(value = "/")
@@ -66,11 +77,12 @@ public class V1ImageController {
 
     // -- /POST/   -- New Image
     @PostMapping(value = "/{ownerName}")
-    public StandardResponse postOneImage(
-            @PathVariable(value = "ownerName") String ownerName
+    public String postOneImage(
+            @PathVariable(value = "ownerName") String    ownerName,
+            @RequestPart(value =  "imageFile") MultipartFile image
     ) {
         log.info("/POST/ New Image for {}", ownerName);
-        return new StandardResponse();
+        return this.s3Client.uploadFile(image);
     }
 
     // -- /POST/   -- Multiple New Images
