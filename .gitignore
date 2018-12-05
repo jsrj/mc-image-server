@@ -27,3 +27,6 @@
 ### Environment ###
 application.yaml
 application-local.yaml
+
+### Filesystem ###
+.DS_Store
